@@ -1,13 +1,20 @@
 package com.nh006220.VirusGame;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.hardware.SensorEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class VirusGame extends GameThread {
    private Player player;
@@ -16,12 +23,15 @@ public class VirusGame extends GameThread {
     public VirusGame(GameView gameView) {
         super(gameView);
 
-        player = new Player(gameView, mCanvasHeight/2,mCanvasWidth/2);
+        player = new Player(gameView, mCanvasHeight/2,mCanvasWidth/2, 150);
 
         enemies = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            enemies.add(new Enemy(gameView, i*20,i*20));
+        for (int i = 0; i < 4; i++) {
+            Random r = new Random();
+            System.out.println(mCanvasHeight);
+            System.out.println(mCanvasWidth);
+            enemies.add(new Enemy(gameView, r.nextInt(1000),r.nextInt(1000), 100));
         }
     }
 
@@ -35,50 +45,27 @@ public class VirusGame extends GameThread {
         player.update(secondsElapsed);
 
         if(!player.isInBounds(mCanvasWidth, mCanvasHeight)){
-            player.setX(100);
-            player.setY(100);
+            //setState(GameThread.STATE_LOSE);
         }
 
         for (Enemy e: enemies) {
-            isColliding(e);
+            if(isColliding(e) && e.isVisible()){
+                e.setVisible(false);
+                updateScore(1);
+                player.increaseScale(enemies.size()*0.2); //TODO increment it by a factor of the scale of the enemy
+            }
         }
     }
 
     //checks for collisions with player
     private boolean isColliding(GameObject g) {
-        Rect boundsPlayer = new Rect(
-                (int) player.getX(),
-                (int) player.getY(),
-                (int)player.getX()+player.getImage().getWidth(),
-                (int)player.getY()+player.getImage().getHeight());
 
-        Rect boundsg = new Rect(
-                (int) g.getX(),
-                (int) g.getY(),
-                (int)g.getX()+g.getImage().getWidth(),
-                (int)g.getY()+g.getImage().getHeight());
-
-        if(Rect.intersects(boundsPlayer,boundsg)){
-            System.out.println("collision");
-        }
+        if(Rect.intersects(player.getBounds(),g.getBounds())) return true;
 
         return false;
     }
 
-    @Override
-    public void cleanup() {
-        super.cleanup();
-    }
 
-    @Override
-    public void doStart() {
-        super.doStart();
-    }
-
-    @Override
-    public void run() {
-        super.run();
-    }
 
     @Override
     public void setSurfaceSize(int width, int height) {
@@ -103,10 +90,7 @@ public class VirusGame extends GameThread {
 
     @Override
     protected void actionOnTouch(float x, float y) {
-        System.out.println("hey");
         player.getNewHeading(x, y);
-//        player.setX(x);
-//        player.setY(y);
     }
 
     @Override

@@ -1,17 +1,17 @@
 package com.nh006220.VirusGame;
 
-import static java.lang.Math.atan2;
-import static java.lang.Math.floor;
 
 public class Player extends GameObject {
-    public Player(GameView gameView, float x, float y) {
-        super(gameView, x, y);
+    private int speed;
+
+    public Player(GameView gameView, float x, float y, int size) {
+        super(gameView, x, y, size);
         setSpeedX(10);
+        speed = 100;
     }
 
 
     public void getNewHeading(float x, float y) {
-        int speed = 10;
         float diffX = this.getX() - x;
         float diffY = this.getY() - y;
         float magnitude = (float)Math.sqrt((diffX * diffX + diffY * diffY));

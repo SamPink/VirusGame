@@ -3,23 +3,27 @@ package com.nh006220.VirusGame;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-
-import com.nh006220.VirusGame.R;
-
-//TODO add a draw method
+import android.graphics.Rect;
 
 public abstract class GameObject {
+    private int size;
     private Bitmap image;
     private float x,y;
     private float speedX,speedY;
+    private boolean visible;
 
-    public GameObject(GameView gameView, float x, float y) {
+    public GameObject(GameView gameView, float x, float y, int size) {
         //TODO all objects are now a small red ball, this should be a parameter
-        this.image = BitmapFactory.decodeResource(gameView.getContext().getResources(), R.drawable.small_red_ball);
+        this.image = BitmapFactory.decodeResource(gameView.getContext().getResources(), R.drawable.virus);
         this.x = x;
         this.y = y;
         this.speedX = 0;
         this.speedY = 0;
+        this.size = size;
+        this.visible = true;
+
+        scale(size);
+
     }
 
     public void update(float sec){
@@ -29,7 +33,14 @@ public abstract class GameObject {
     }
 
     public void draw(Canvas canvas){
-        canvas.drawBitmap(this.getImage(), this.getX() - this.getImage().getWidth() / 2, this.getY() - this.getImage().getHeight() / 2, null);
+        if(visible){
+            canvas.drawBitmap(this.getImage(), this.getX() - this.getImage().getWidth() / 2, this.getY() - this.getImage().getHeight() / 2, null);
+        }
+    }
+
+    public void scale(int size){
+        this.size = size;
+        this.image = Bitmap.createScaledBitmap(this.image, this.size, this.size, false);
     }
 
     /**
@@ -57,6 +68,19 @@ public abstract class GameObject {
         }
 
         return true;
+    }
+
+    public void increaseScale(double v) {
+        this.size += v;
+        scale(size);
+    }
+
+    public Rect getBounds(){
+        return new Rect(
+                (int) this.getX(),
+                (int) this.getY(),
+                (int)this.getX()+this.size/2,
+                (int)this.getY()+this.size/2);
     }
 
     public Bitmap getImage() {
@@ -97,5 +121,21 @@ public abstract class GameObject {
 
     public void setSpeedY(float speedY) {
         this.speedY = speedY;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }
