@@ -20,7 +20,10 @@ public class VirusGame extends GameThread {
 
         for (int i = 0; i < 40; i++) {
             Random r = new Random();
-            enemies.add(new Enemy(gameView, r.nextInt(1000), r.nextInt(1000), 100));
+            enemies.add(new Enemy(gameView,
+                    r.nextInt((500 - (-500)) + 1) + (-500),
+                    r.nextInt((500 - (-500)) + 1) + (-500),
+                    100));
         }
     }
 
@@ -62,7 +65,7 @@ public class VirusGame extends GameThread {
 
     @Override
     protected void actionOnTouch(float x, float y) {
-        player.getNewHeading(x, y);
+        player.getNewHeading((mCanvasWidth / 2) - x, (mCanvasHeight / 2) - y);
     }
 
     @Override

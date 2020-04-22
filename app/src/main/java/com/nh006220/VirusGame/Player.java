@@ -14,7 +14,7 @@ public class Player extends GameObject {
         float diffX = this.getX() - x;
         float diffY = this.getY() - y;
         float magnitude = (float) Math.sqrt((diffX * diffX + diffY * diffY));
-        this.setSpeedX(-diffX / magnitude * speed);
-        this.setSpeedY(-diffY / magnitude * speed);
+        this.setSpeedX(diffX / magnitude * speed);
+        this.setSpeedY(diffY / magnitude * speed);
     }
 }
