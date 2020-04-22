@@ -8,8 +8,8 @@ import android.graphics.Rect;
 public abstract class GameObject {
     private int size;
     private Bitmap image;
-    private float x,y;
-    private float speedX,speedY;
+    private float x, y;
+    private float speedX, speedY;
     private boolean visible;
 
     public GameObject(GameView gameView, float x, float y, int size) {
@@ -26,43 +26,44 @@ public abstract class GameObject {
 
     }
 
-    public void update(float sec){
+    public void update(float sec) {
         //Move the ball's X and Y using the speed (pixel/sec)
-        this.x = this.x+ sec* this.speedX;
-        this.y = this.y + sec* this.speedY;
+        this.x = this.x + sec * this.speedX;
+        this.y = this.y + sec * this.speedY;
     }
 
-    public void draw(Canvas canvas){
-        if(visible){
+    public void draw(Canvas canvas) {
+        if (visible) {
             canvas.drawBitmap(this.getImage(), this.getX() - this.getImage().getWidth() / 2, this.getY() - this.getImage().getHeight() / 2, null);
         }
     }
 
-    public void scale(int size){
+    public void scale(int size) {
         this.size = size;
         this.image = Bitmap.createScaledBitmap(this.image, this.size, this.size, false);
     }
 
     /**
      * returns true if not colliding
+     *
      * @param maxX
      * @param maxY
      * @return
      */
-    public boolean isInBounds(int maxX, int maxY){
-        if(this.y >= maxY) {
+    public boolean isInBounds(int maxX, int maxY) {
+        if (this.y >= maxY) {
             System.out.println("top collision");
             return false;
         }
-        if(this.y <= 0){
+        if (this.y <= 0) {
             System.out.println("bottom collision");
             return false;
         }
-        if(this.x >= maxX){
+        if (this.x >= maxX) {
             System.out.println("right side collision");
             return false;
         }
-        if(this.x <= 0){
+        if (this.x <= 0) {
             System.out.println("left side collision");
             return false;
         }
@@ -75,12 +76,12 @@ public abstract class GameObject {
         scale(size);
     }
 
-    public Rect getBounds(){
+    public Rect getBounds() {
         return new Rect(
                 (int) this.getX(),
                 (int) this.getY(),
-                (int)this.getX()+this.size/2,
-                (int)this.getY()+this.size/2);
+                (int) this.getX() + this.size / 2,
+                (int) this.getY() + this.size / 2);
     }
 
     public Bitmap getImage() {

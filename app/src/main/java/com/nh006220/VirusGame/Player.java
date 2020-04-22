@@ -10,12 +10,11 @@ public class Player extends GameObject {
         speed = 100;
     }
 
-
     public void getNewHeading(float x, float y) {
         float diffX = this.getX() - x;
         float diffY = this.getY() - y;
-        float magnitude = (float)Math.sqrt((diffX * diffX + diffY * diffY));
-        this.setSpeedX(-diffX/magnitude * speed);
-        this.setSpeedY(-diffY/magnitude * speed);
+        float magnitude = (float) Math.sqrt((diffX * diffX + diffY * diffY));
+        this.setSpeedX(-diffX / magnitude * speed);
+        this.setSpeedY(-diffY / magnitude * speed);
     }
 }
