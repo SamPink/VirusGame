@@ -10,23 +10,35 @@ public class Level {
     private final GameView gameView;
     private List<Enemy> enemies;
     private int enemiesCount;
+    private Map map;
 
 
-    public Level(int number, int enemiesCount, int enemiesSpeed, GameView gameView) {
+    public Level(int number, int enemiesCount, int enemiesSpeed, GameView gameView, Map map) {
         this.levelNumber = number;
         this.enemiesCount = enemiesCount;
         this.speed = enemiesSpeed;
         this.gameView = gameView;
         this.enemies = new ArrayList<>();
+        this.map = map;
 
 
         for (int i = 0; i < this.enemiesCount; i++) {
             Random r = new Random();
             enemies.add(new Enemy(gameView,
-                    r.nextInt((2000 - (-2000)) + 1) + (-2000),
-                    r.nextInt((2000 - (-2000)) + 1) + (-2000),
+                    r.nextInt((map.width - (-map.width)) + 1) + (-map.width),
+                    r.nextInt((map.height - (-map.height)) + 1) + (-map.height),
                     100));
         }
+    }
+
+    public int getRemainingEnemies(){
+        int en = 0;
+        for ( Enemy e: enemies) {
+            if(e.isVisible()){
+                en++;
+            }
+        }
+        return en;
     }
 
     public List<Enemy> getEnemies() {
