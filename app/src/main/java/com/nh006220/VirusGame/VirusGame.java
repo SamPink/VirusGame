@@ -5,12 +5,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 
 public class VirusGame extends GameThread {
     private Player player;
+    private List<Level> levels;
     private Level level;
     private Enemy cl;
 
@@ -19,7 +23,13 @@ public class VirusGame extends GameThread {
 
         player = new Player(gameView, mCanvasHeight / 2, mCanvasWidth / 2, 150);
 
-        level = new Level(1, 10, 0, gameView, new Map(1000, 1000));
+        levels = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            levels.add(new Level(1, 10, 0, gameView, new Map(1000, 1000)));
+        }
+
+        level = levels.get(0);
     }
 
     @Override
@@ -50,6 +60,7 @@ public class VirusGame extends GameThread {
 
         if(level.getRemainingEnemies() == 0){
             setState(GameThread.STATE_WIN);
+            level = levels.get(1);
         }
     }
 
@@ -81,8 +92,7 @@ public class VirusGame extends GameThread {
 
             canvas.drawLine(player.getX(), player.getY(), cl.getX(), cl.getY(), paint);
 
-            //draw box at closest enemy
-            canvas.drawRect(cl.getBounds(), new Paint());
+            //draw box at closest enemy canvas.drawRect(cl.getBounds(), new Paint());
         }
 
         for (Enemy e : level.getEnemies()) {
