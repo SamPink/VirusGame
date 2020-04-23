@@ -3,28 +3,17 @@ package com.nh006220.VirusGame;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class VirusGame extends GameThread {
     private Player player;
-    private List<Enemy> enemies;
+    private Level level;
 
     public VirusGame(GameView gameView) {
         super(gameView);
 
         player = new Player(gameView, mCanvasHeight / 2, mCanvasWidth / 2, 150);
 
-        enemies = new ArrayList<>();
-
-        for (int i = 0; i < 40; i++) {
-            Random r = new Random();
-            enemies.add(new Enemy(gameView,
-                    r.nextInt((500 - (-500)) + 1) + (-500),
-                    r.nextInt((500 - (-500)) + 1) + (-500),
-                    100));
-        }
+        level = new Level(1, 100, 0, gameView);
     }
 
     @Override
@@ -36,11 +25,11 @@ public class VirusGame extends GameThread {
             //setState(GameThread.STATE_LOSE);
         }
 
-        for (Enemy e : enemies) {
+        for (Enemy e : level.getEnemies()) {
             if (isColliding(e) && e.isVisible()) {
                 e.setVisible(false);
                 updateScore(1);
-                player.increaseScale(enemies.size() * 0.2);
+                player.increaseScale(e.getSize() * 0.2);
             }
         }
     }
@@ -58,14 +47,14 @@ public class VirusGame extends GameThread {
 
         player.draw(canvas);
 
-        for (Enemy e : enemies) {
+        for (Enemy e : level.getEnemies()) {
             e.draw(canvas);
         }
     }
 
     @Override
     protected void actionOnTouch(float x, float y) {
-        player.getNewHeading((mCanvasWidth / 2) - x, (mCanvasHeight / 2) - y);
+        player.getNewHeading(x, y, mCanvasWidth, mCanvasHeight);
     }
 
     @Override
