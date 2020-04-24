@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "548625416203",
-    "firebase_url": "https://virusgame-b221b.firebaseio.com",
-    "project_id": "virusgame-b221b",
-    "storage_bucket": "virusgame-b221b.appspot.com"
+    "project_number": "918950334532",
+    "firebase_url": "https://virusgame-b13e2.firebaseio.com",
+    "project_id": "virusgame-b13e2",
+    "storage_bucket": "virusgame-b13e2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:548625416203:android:9555ff5c912c598271070e",
+        "mobilesdk_app_id": "1:918950334532:android:6e74bc2b98e646230f2c11",
         "android_client_info": {
           "package_name": "com.nh006220.VirusGame"
         }
       },
       "oauth_client": [
         {
-          "client_id": "548625416203-cvp7nrv8i8a98obtc8t8as0qnqkuidgv.apps.googleusercontent.com",
+          "client_id": "918950334532-j8u4porpkujsm95r9rn3v8j4u2hjdk54.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBPJw8uB_AlkN0Wzd8IKLoquhIgcKQBV04"
+          "current_key": "AIzaSyDgwlWVOn0VmSiXNn3xCF3vCxQnJb2hJuM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "548625416203-cvp7nrv8i8a98obtc8t8as0qnqkuidgv.apps.googleusercontent.com",
+              "client_id": "918950334532-j8u4porpkujsm95r9rn3v8j4u2hjdk54.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
