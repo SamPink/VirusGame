@@ -21,7 +21,6 @@ public class Level {
         this.enemies = new ArrayList<>();
         this.map = map;
 
-
         for (int i = 0; i < this.enemiesCount; i++) {
             Random r = new Random();
             enemies.add(new Enemy(gameView,
@@ -55,5 +54,9 @@ public class Level {
 
     public void setEnemiesCount(int enemiesCount) {
         this.enemiesCount = enemiesCount;
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
     }
 }

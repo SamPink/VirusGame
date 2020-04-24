@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "548625416203",
+    "firebase_url": "https://virusgame-b221b.firebaseio.com",
+    "project_id": "virusgame-b221b",
+    "storage_bucket": "virusgame-b221b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548625416203:android:9555ff5c912c598271070e",
+        "android_client_info": {
+          "package_name": "com.nh006220.VirusGame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548625416203-cvp7nrv8i8a98obtc8t8as0qnqkuidgv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPJw8uB_AlkN0Wzd8IKLoquhIgcKQBV04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548625416203-cvp7nrv8i8a98obtc8t8as0qnqkuidgv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

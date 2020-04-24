@@ -26,7 +26,7 @@ public class VirusGame extends GameThread {
         levels = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            levels.add(new Level(1, 10, 0, gameView, new Map(1000, 1000)));
+            levels.add(new Level(i+1, 5*i, 0, gameView, new Map(1000, 1000)));
         }
 
         level = levels.get(0);
@@ -45,6 +45,8 @@ public class VirusGame extends GameThread {
                 e.setVisible(false);
                 updateScore(1);
                 player.increaseScale(e.getSize() * 0.05);
+
+                System.out.println(level.getRemainingEnemies() + "left of " +level.getEnemiesCount());
             } else if (e.isVisible()) {
                 /* calculate distance from player */
                 double hypot = Math.hypot(Math.abs(e.getY() - player.getY()),
@@ -60,7 +62,9 @@ public class VirusGame extends GameThread {
 
         if(level.getRemainingEnemies() == 0){
             setState(GameThread.STATE_WIN);
-            level = levels.get(1);
+            level = levels.get(level.getLevelNumber()+1);
+
+            System.out.println(level.getLevelNumber());
         }
     }
 

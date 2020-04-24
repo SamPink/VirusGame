@@ -7,7 +7,7 @@ public class Player extends GameObject {
     public Player(GameView gameView, float x, float y, int size) {
         super(gameView, x, y, size);
         setSpeedX(10);
-        speed = 100;
+        speed = 200;
     }
 
     public void getNewHeading(float x, float y, int mCanvasWidth, int mCanvasHeight) {

@@ -7,6 +7,13 @@ public class Enemy extends GameObject{
         int value = 1;
     }
 
+    @Override
+    public void update(float sec) {
+        super.update(sec);
+
+        //Add random movement
+    }
+
     public int getValue() {
         return value;
     }
