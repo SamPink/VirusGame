@@ -1,10 +1,6 @@
 package com.nh006220.VirusGame;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-public class Level extends GameState{
+public class Level extends GameState {
     private int levelNumber;
 
 

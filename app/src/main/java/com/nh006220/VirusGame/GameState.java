@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class GameState {
-    private int speed;
     private final GameView gameView;
+    private int speed;
     private List<Enemy> enemies;
     private int enemiesCount;
     private Map map;
@@ -16,17 +16,17 @@ public abstract class GameState {
         this.map = map;
         this.enemies = new ArrayList<>();
     }
-    
-    
-    public int getRemainingEnemies(){
+
+
+    public int getRemainingEnemies() {
         int r = 0;
-        for (Enemy e: getEnemies()) {
-            if(e.isVisible()) r++;
+        for (Enemy e : getEnemies()) {
+            if (e.isVisible()) r++;
         }
         return r;
     }
 
-    public void makeEnemies(int n){
+    public void makeEnemies(int n) {
         List<Enemy> enemies = getEnemies();
 
         for (int i = 0; i < n; i++) {
@@ -38,7 +38,7 @@ public abstract class GameState {
 
         setEnemies(enemies);
     }
-    
+
 
     public int getSpeed() {
         return speed;
@@ -83,6 +83,7 @@ public abstract class GameState {
     /**
      * on collision action, returns false for no damage to player
      * returns true then does damage to enemy
+     *
      * @param e
      * @return
      */

@@ -41,36 +41,36 @@ public class StartActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("highScore");
 
-       myRef.addChildEventListener(new ChildEventListener() {
-           @Override
-           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-               arrayList = new ArrayList<>();
-               String value = dataSnapshot.getValue(String.class);
-               arrayList.add(value);
-               adapter = new ArrayAdapter<>(StartActivity.this, android.R.layout.simple_list_item_1, arrayList);
-               listView.setAdapter(adapter);
-           }
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                arrayList = new ArrayList<>();
+                String value = dataSnapshot.getValue(String.class);
+                arrayList.add(value);
+                adapter = new ArrayAdapter<>(StartActivity.this, android.R.layout.simple_list_item_1, arrayList);
+                listView.setAdapter(adapter);
+            }
 
-           @Override
-           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-           }
+            }
 
-           @Override
-           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
 
-           }
+            }
 
-           @Override
-           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-           }
+            }
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-           }
-       });
+            }
+        });
 
         buttonLevels = findViewById(R.id.button_play_levels);
         buttonLevels.setOnClickListener(v -> {

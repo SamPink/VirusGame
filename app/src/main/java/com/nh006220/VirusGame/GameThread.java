@@ -22,47 +22,33 @@ public abstract class GameThread extends Thread {
     public static final int STATE_READY = 3;
     public static final int STATE_RUNNING = 4;
     public static final int STATE_WIN = 5;
-
-    //Control variable for the mode of the game (e.g. STATE_WIN)
-    protected int mMode = 1;
-
-    //Control of the actual running inside run()
-    private boolean mRun = false;
-
-    //The surface this thread (and only this thread) writes upon
-    private SurfaceHolder mSurfaceHolder;
-
-    //the message handler to the View/Activity thread
-    private Handler mHandler;
-
-    //Android Context - this stores almost all we need to know
-    private Context mContext;
-
+    //Used to ensure appropriate threading
+    static final Integer monitor = 1;
     //The view
     public GameView mGameView;
-
+    //Control variable for the mode of the game (e.g. STATE_WIN)
+    protected int mMode = 1;
     //We might want to extend this call - therefore protected
     protected int mCanvasWidth = 1;
     protected int mCanvasHeight = 1;
-
     //Last time we updated the game physics
     protected long mLastTime = 0;
-
     protected Bitmap mBackgroundImage;
-
     protected long score = 0;
-
-    //Used for time keeping
-    private long now;
-    private float elapsed;
-
     //Rotation vectors used to calculate orientation
     float[] mGravity;
     float[] mGeomagnetic;
-
-    //Used to ensure appropriate threading
-    static final Integer monitor = 1;
-
+    //Control of the actual running inside run()
+    private boolean mRun = false;
+    //The surface this thread (and only this thread) writes upon
+    private SurfaceHolder mSurfaceHolder;
+    //the message handler to the View/Activity thread
+    private Handler mHandler;
+    //Android Context - this stores almost all we need to know
+    private Context mContext;
+    //Used for time keeping
+    private long now;
+    private float elapsed;
     //1 is for level's game, 2 for free game
     private int gameMode = 1;
 
@@ -309,6 +295,10 @@ public abstract class GameThread extends Thread {
 
     /* ALL ABOUT SCORES */
 
+    public float getScore() {
+        return score;
+    }
+
     //Send a score to the View to view
     //Would it be better to do this inside this thread writing it manually on the screen?
     public void setScore(long score) {
@@ -324,10 +314,6 @@ public abstract class GameThread extends Thread {
         }
     }
 
-    public float getScore() {
-        return score;
-    }
-
     public void updateScore(long score) {
         this.setScore(this.score + score);
     }
@@ -337,12 +323,12 @@ public abstract class GameThread extends Thread {
         return Long.toString(Math.round(this.score));
     }
 
-    public void setGameMode(int value) {
-        this.gameMode = value;
-    }
-
     public int getGameMode() {
         return gameMode;
+    }
+
+    public void setGameMode(int value) {
+        this.gameMode = value;
     }
 }
 

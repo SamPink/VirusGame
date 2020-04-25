@@ -15,19 +15,16 @@ import android.view.View;
 import android.widget.TextView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback, SensorEventListener {
-    private volatile GameThread thread;
+    Sensor accelerometer;
 
     //private SensorEventListener sensorAccelerometer;
-
+    Sensor magnetometer;
+    private volatile GameThread thread;
     //Handle communication from the GameThread to the View/Activity Thread
     private Handler mHandler;
-
     //Pointers to the views
     private TextView mScoreView;
     private TextView mStatusView;
-
-    Sensor accelerometer;
-    Sensor magnetometer;
 
 
     public GameView(Context context, AttributeSet attrs) {
@@ -82,6 +79,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Sen
      * Setters and Getters
      */
 
+    public GameThread getThread() {
+        return thread;
+    }
+
     public void setThread(GameThread newThread) {
 
         thread = newThread;
@@ -95,10 +96,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback, Sen
 
         setClickable(true);
         setFocusable(true);
-    }
-
-    public GameThread getThread() {
-        return thread;
     }
 
     public TextView getStatusView() {

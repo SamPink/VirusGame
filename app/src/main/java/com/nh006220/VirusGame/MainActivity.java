@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
@@ -40,7 +39,7 @@ public class MainActivity extends Activity {
         //value is passed to determine what game mode is launched, 1 for levels, 2 for free
         Bundle b = getIntent().getExtras();
         int value = -1; // or other values
-        if (b != null){
+        if (b != null) {
             value = b.getInt("key");
         }
 

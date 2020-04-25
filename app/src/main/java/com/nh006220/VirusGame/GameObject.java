@@ -5,16 +5,27 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+/**
+ * base object class that stores the position of object on canvas
+ * stores the speed in both directions
+ * stores the image rendered to the screen
+ */
 public abstract class GameObject {
-    private int size;
+    private int size; //size is used to x and y of object when drawn. this is increased for player
     private Bitmap image;
     private float x, y;
     private float speedX, speedY;
-    private boolean visible;
+    private boolean visible; //when true object is drawn to canvas
 
+    /**
+     * constructor for creating game object
+     * @param gameView view object will be drawn to
+     * @param x position on screen
+     * @param y position on screen
+     * @param size size in pixels
+     */
     public GameObject(GameView gameView, float x, float y, int size) {
-        //TODO all objects are now a small red ball, this should be a parameter
-        this.image = BitmapFactory.decodeResource(gameView.getContext().getResources(), R.drawable.virus);
+        this.image = BitmapFactory.decodeResource(gameView.getContext().getResources(), R.drawable.virus); //get object from resource
         this.x = x;
         this.y = y;
         this.speedX = 0;
@@ -22,22 +33,33 @@ public abstract class GameObject {
         this.size = size;
         this.visible = true;
 
-        scale(size);
-
+        scale(size);// set the size
     }
 
+    /**
+     * speed of object is a factor of time and speed X or Y
+     * @param sec
+     */
     public void update(float sec) {
         //Move the ball's X and Y using the speed (pixel/sec)
         this.x = this.x + sec * this.speedX;
         this.y = this.y + sec * this.speedY;
     }
 
+    /**
+     * only draw when viable is true
+     * @param canvas
+     */
     public void draw(Canvas canvas) {
         if (visible) {
             canvas.drawBitmap(this.getImage(), this.getX() - this.getImage().getWidth() / 2, this.getY() - this.getImage().getHeight() / 2, null);
         }
     }
 
+    /**
+     *
+     * @param size
+     */
     public void scale(int size) {
         this.size = size;
         this.image = Bitmap.createScaledBitmap(this.image, this.size, this.size, false);
