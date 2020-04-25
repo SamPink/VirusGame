@@ -1,12 +1,19 @@
 package com.nh006220.VirusGame;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Bundle;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 
 public class VirusGame extends GameThread {
@@ -14,6 +21,7 @@ public class VirusGame extends GameThread {
     private List<Level> levels;
     private GameState game;
     private Enemy cl;
+    private DatabaseReference mDatabase;
 
     public VirusGame(GameView gameView, int value) {
         super(gameView);
@@ -38,6 +46,15 @@ public class VirusGame extends GameThread {
         }
     }
 
+    /**
+     * default constructor starts in level game
+     * @param gameView
+     */
+    public VirusGame(GameView gameView) {
+        super(gameView);
+        setGameMode(1);
+    }
+
     @Override
     protected void updateGame(float secondsElapsed) {
 
@@ -55,7 +72,7 @@ public class VirusGame extends GameThread {
                     player.increaseScale(e.getSize() * 0.05);
                     System.out.println(game.getRemainingEnemies() + "left of " + game.getEnemiesCount());
                 }else{
-                    setState(GameThread.STATE_LOSE);
+                    endGame();
                 }
             } else if (e.isVisible()) {
                 /* calculate distance from player */
@@ -76,6 +93,15 @@ public class VirusGame extends GameThread {
 
             System.out.println(game.getLevelNumber());
         }
+    }
+
+    private void endGame() {
+        //Save score to high score
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        HighScore h = new HighScore("sam", (int) getScore());
+        mDatabase.child("highScore").child(h.getName()).setValue(h);
+
+        setState(GameThread.STATE_LOSE);
     }
 
     //checks for collisions with player

@@ -71,9 +71,37 @@ public class StartActivity extends AppCompatActivity {
 
         // Write a message to the database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("highScores");
+        DatabaseReference myRef = database.getReference("highScore");
 
-        myRef.setValue("Hello, World!");
+       myRef.addChildEventListener(new ChildEventListener() {
+           @Override
+           public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+               for(DataSnapshot d : dataSnapshot.getChildren()){
+                   String value = d.getValue(String.class);
+                   System.out.println(value);
+               }
+           }
+
+           @Override
+           public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+           }
+
+           @Override
+           public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+           }
+
+           @Override
+           public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {
+
+           }
+       });
 
 
         myRef.addChildEventListener(eventListener);
