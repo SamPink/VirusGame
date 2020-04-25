@@ -11,8 +11,6 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.nh006220.VirusGame.R;
-
 public class MainActivity extends Activity {
 
     private static final int MENU_RESUME = 1;
@@ -22,7 +20,9 @@ public class MainActivity extends Activity {
     private GameThread mGameThread;
     private GameView mGameView;
 
-    /** Called when the activity is first created. */
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,20 +33,27 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        mGameView = (GameView)findViewById(R.id.gamearea);
-        mGameView.setStatusView((TextView)findViewById(R.id.text));
-        mGameView.setScoreView((TextView)findViewById(R.id.score));
+        mGameView = findViewById(R.id.gamearea);
+        mGameView.setStatusView(findViewById(R.id.text));
+        mGameView.setScoreView(findViewById(R.id.score));
 
-        this.startGame(mGameView, null, savedInstanceState);
+        //value is passed to determine what game mode is launched, 1 for levels, 2 for free
+        Bundle b = getIntent().getExtras();
+        int value = -1; // or other values
+        if (b != null){
+            value = b.getInt("key");
+        }
+
+        this.startGame(mGameView, null, savedInstanceState, value);
     }
 
-    private void startGame(GameView gView, GameThread gThread, Bundle savedInstanceState) {
+    private void startGame(GameView gView, GameThread gThread, Bundle savedInstanceState, int value) {
 
         //Set up a new game, we don't care about previous states
-        mGameThread = new VirusGame(mGameView);
+        mGameThread = new VirusGame(mGameView, value);
         mGameView.setThread(mGameThread);
         mGameThread.setState(GameThread.STATE_READY);
-        mGameView.startSensor((SensorManager)getSystemService(Context.SENSOR_SERVICE));
+        mGameView.startSensor((SensorManager) getSystemService(Context.SENSOR_SERVICE));
     }
 
     /*
@@ -57,7 +64,7 @@ public class MainActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        if(mGameThread.getMode() == GameThread.STATE_RUNNING) {
+        if (mGameThread.getMode() == GameThread.STATE_RUNNING) {
             mGameThread.setState(GameThread.STATE_PAUSE);
         }
     }
@@ -67,7 +74,7 @@ public class MainActivity extends Activity {
         super.onDestroy();
 
         mGameView.cleanup();
-        mGameView.removeSensor((SensorManager)getSystemService(Context.SENSOR_SERVICE));
+        mGameView.removeSensor((SensorManager) getSystemService(Context.SENSOR_SERVICE));
         mGameThread = null;
         mGameView = null;
     }
@@ -94,7 +101,7 @@ public class MainActivity extends Activity {
                 mGameThread.doStart();
                 return true;
             case MENU_STOP:
-                mGameThread.setState(GameThread.STATE_LOSE,  getText(R.string.message_stopped));
+                mGameThread.setState(GameThread.STATE_LOSE, getText(R.string.message_stopped));
                 return true;
             case MENU_RESUME:
                 mGameThread.unpause();

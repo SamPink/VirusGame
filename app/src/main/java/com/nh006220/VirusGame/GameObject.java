@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import math.geom2d.Point2D;
-
 public abstract class GameObject {
     private int size;
     private Bitmap image;

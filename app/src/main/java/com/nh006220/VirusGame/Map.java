@@ -8,7 +8,7 @@ public class Map {
         this.height = height;
     }
 
-    public int area(){
-        return width*height;
+    public int area() {
+        return width * height;
     }
 }

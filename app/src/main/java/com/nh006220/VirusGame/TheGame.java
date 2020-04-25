@@ -1,13 +1,12 @@
 package com.nh006220.VirusGame;
 
 //Other parts of the android libraries that we use
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 
-import com.nh006220.VirusGame.R;
-
-public class TheGame extends GameThread{
+public class TheGame extends GameThread {
 
     //Will store the image of a ball
     private Bitmap mBall;
@@ -47,7 +46,7 @@ public class TheGame extends GameThread{
     //The X and Y position of the SadBalls on the screen
     //The point is the top left corner, not middle, of the balls
     //Initially at -100 to avoid them being drawn in 0,0 of the screen
-    private float[] mSadBallX = {-100,-100,-100};
+    private float[] mSadBallX = {-100, -100, -100};
     private float[] mSadBallY = new float[3];
 
     //This will store the min distance allowed between a big ball and the small ball
@@ -70,12 +69,12 @@ public class TheGame extends GameThread{
                         R.drawable.yellow_ball);
 
         //Prepare the image of the SmileyBall so we can draw it on the screen (using a canvas)
-        mSmileyBall =  BitmapFactory.decodeResource
+        mSmileyBall = BitmapFactory.decodeResource
                 (gameView.getContext().getResources(),
                         R.drawable.smiley_ball);
 
         //Prepare the image of the SadBall(s) so we can draw it on the screen (using a canvas)
-        mSadBall =  BitmapFactory.decodeResource
+        mSadBall = BitmapFactory.decodeResource
                 (gameView.getContext().getResources(),
                         R.drawable.sad_ball);
     }
@@ -98,7 +97,7 @@ public class TheGame extends GameThread{
 
         //Place SmileyBall in the top middle of the screen
         mSmileyBallX = mCanvasWidth / 2;
-        mSmileyBallY = mSmileyBall.getHeight()/2;
+        mSmileyBallY = mSmileyBall.getHeight() / 2;
 
         //Place all SadBalls forming a pyramid underneath the SmileyBall
         mSadBallX[0] = mCanvasWidth / 3;
@@ -120,7 +119,7 @@ public class TheGame extends GameThread{
     protected void doDraw(Canvas canvas) {
         //If there isn't a canvas to do nothing
         //It is ok not understanding what is happening here
-        if(canvas == null) return;
+        if (canvas == null) return;
 
         //House keeping
         super.doDraw(canvas);
@@ -139,7 +138,7 @@ public class TheGame extends GameThread{
         //canvas.drawBitmap(mSmileyBall, mSmileyBallX - mSmileyBall.getWidth() / 2, mSmileyBallY - mSmileyBall.getHeight() / 2, null);
 
         //Loop through all SadBall
-        for(int i = 0; i < mSadBallX.length; i++) {
+        for (int i = 0; i < mSadBallX.length; i++) {
             //Draw SadBall in position i
             canvas.drawBitmap(mSadBall, mSadBallX[i] - mSadBall.getWidth() / 2, mSadBallY[i] - mSadBall.getHeight() / 2, null);
         }
@@ -162,11 +161,11 @@ public class TheGame extends GameThread{
 
         //If paddle is outside the screen and moving further away
         //Move it into the screen and set its speed to 0
-        if(mPaddleX <= 0 && mPaddleSpeedX < 0) {
+        if (mPaddleX <= 0 && mPaddleSpeedX < 0) {
             mPaddleSpeedX = 0;
             mPaddleX = 0;
         }
-        if(mPaddleX >= mCanvasWidth && mPaddleSpeedX > 0) {
+        if (mPaddleX >= mCanvasWidth && mPaddleSpeedX > 0) {
             mPaddleSpeedX = 0;
             mPaddleX = mCanvasWidth;
         }
@@ -178,7 +177,7 @@ public class TheGame extends GameThread{
     @Override
     protected void updateGame(float secondsElapsed) {
         //If the ball moves down on the screen
-        if(mBallSpeedY > 0) {
+        if (mBallSpeedY > 0) {
             //Check for a paddle collision
             updateBallCollision(mPaddleX, mCanvasHeight);
         }
@@ -194,30 +193,30 @@ public class TheGame extends GameThread{
         //Check if the ball hits either the left side or the right side of the screen
         //But only do something if the ball is moving towards that side of the screen
         //If it does that => change the direction of the ball in the X direction
-        if((mBallX <= mBall.getWidth() / 2 && mBallSpeedX < 0) || (mBallX >= mCanvasWidth - mBall.getWidth() / 2 && mBallSpeedX > 0) ) {
+        if ((mBallX <= mBall.getWidth() / 2 && mBallSpeedX < 0) || (mBallX >= mCanvasWidth - mBall.getWidth() / 2 && mBallSpeedX > 0)) {
             mBallSpeedX = -mBallSpeedX;
         }
 
         //Check for SmileyBall collision
-        if(updateBallCollision(mSmileyBallX, mSmileyBallY)) {
+        if (updateBallCollision(mSmileyBallX, mSmileyBallY)) {
             //Increase score
             updateScore(1);
         }
 
         //Loop through all SadBalls
-        for(int i = 0; i < mSadBallX.length; i++) {
+        for (int i = 0; i < mSadBallX.length; i++) {
             //Perform collisions (if necessary) between SadBall in position i and the red ball
             updateBallCollision(mSadBallX[i], mSadBallY[i]);
         }
 
         //If the ball goes out of the top of the screen and moves towards the top of the screen =>
         //change the direction of the ball in the Y direction
-        if(mBallY <= mBall.getWidth() / 2 && mBallSpeedY < 0) {
+        if (mBallY <= mBall.getWidth() / 2 && mBallSpeedY < 0) {
             mBallSpeedY = -mBallSpeedY;
         }
 
         //If the ball goes out of the bottom of the screen => lose the game
-        if(mBallY >= mCanvasHeight) {
+        if (mBallY >= mCanvasHeight) {
             setState(GameThread.STATE_LOSE);
         }
 
@@ -226,19 +225,19 @@ public class TheGame extends GameThread{
     //Collision control between mBall and another big ball
     private boolean updateBallCollision(float x, float y) {
         //Get actual distance (without square root - remember?) between the mBall and the ball being checked
-        float distanceBetweenBallAndPaddle = (x - mBallX) * (x - mBallX) + (y - mBallY) *(y - mBallY);
+        float distanceBetweenBallAndPaddle = (x - mBallX) * (x - mBallX) + (y - mBallY) * (y - mBallY);
 
         //Check if the actual distance is lower than the allowed => collision
-        if(mMinDistanceBetweenBallAndPaddle >= distanceBetweenBallAndPaddle) {
+        if (mMinDistanceBetweenBallAndPaddle >= distanceBetweenBallAndPaddle) {
             //Get the present speed (this should also be the speed going away after the collision)
-            float speedOfBall = (float) Math.sqrt(mBallSpeedX*mBallSpeedX + mBallSpeedY*mBallSpeedY);
+            float speedOfBall = (float) Math.sqrt(mBallSpeedX * mBallSpeedX + mBallSpeedY * mBallSpeedY);
 
             //Change the direction of the ball
             mBallSpeedX = mBallX - x;
             mBallSpeedY = mBallY - y;
 
             //Get the speed after the collision
-            float newSpeedOfBall = (float) Math.sqrt(mBallSpeedX*mBallSpeedX + mBallSpeedY*mBallSpeedY);
+            float newSpeedOfBall = (float) Math.sqrt(mBallSpeedX * mBallSpeedX + mBallSpeedY * mBallSpeedY);
 
             //using the fraction between the original speed and present speed to calculate the needed
             //velocities in X and Y to get the original speed but with the new angle.

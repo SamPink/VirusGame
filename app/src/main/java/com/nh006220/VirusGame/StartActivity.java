@@ -1,16 +1,14 @@
 package com.nh006220.VirusGame;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Person;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -19,7 +17,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 
 public class StartActivity extends AppCompatActivity {
     private ListView listView;
@@ -37,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 arrayList = new ArrayList<>();
                 System.out.println("fdghjkhgfdsfghj");
-                String value = dataSnapshot.getValue(String.class).toString();
+                String value = dataSnapshot.getValue(String.class);
                 arrayList.add(value);
                 adapter = new ArrayAdapter<>(StartActivity.this, android.R.layout.simple_list_item_1, arrayList);
                 listView.setAdapter(adapter);

@@ -4,33 +4,38 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 
 
 public class VirusGame extends GameThread {
     private Player player;
     private List<Level> levels;
-    private Level level;
+    private GameState game;
     private Enemy cl;
 
-    public VirusGame(GameView gameView) {
+    public VirusGame(GameView gameView, int value) {
         super(gameView);
 
         player = new Player(gameView, mCanvasHeight / 2, mCanvasWidth / 2, 150);
 
-        levels = new ArrayList<>();
+        setGameMode(value);
 
-        for (int i = 0; i < 5; i++) {
-            levels.add(new Level(i+1, 5*i, 0, gameView, new Map(1000, 1000)));
+        if (getGameMode() == 2) {
+            //game mode 2 is a free game
+            game = new FreeGame(gameView, new Map(500,500));
+        } else {
+            levels = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                levels.add(new Level(gameView,
+                        new Map(500,500),
+                        i+1,
+                        10*(i+1))
+                );
+            }
+            game = levels.get(0);
         }
-
-        level = levels.get(0);
     }
 
     @Override
@@ -38,8 +43,10 @@ public class VirusGame extends GameThread {
 
         player.update(secondsElapsed);
 
+        game.update(secondsElapsed);
+
         double close = 999999;//set max value
-        for (Enemy e : level.getEnemies()) {
+        for (Enemy e : game.getEnemies()) {
             //TODO fix bounding box
             if (isColliding(e) && e.isVisible()) {
                 //colliding with enemy on screen
@@ -47,7 +54,7 @@ public class VirusGame extends GameThread {
                 updateScore(1);
                 player.increaseScale(e.getSize() * 0.05);
 
-                System.out.println(level.getRemainingEnemies() + "left of " +level.getEnemiesCount());
+                System.out.println(game.getRemainingEnemies() + "left of " + game.getEnemiesCount());
             } else if (e.isVisible()) {
                 /* calculate distance from player */
                 double hypot = Math.hypot(Math.abs(e.getY() - player.getY()),
@@ -61,11 +68,11 @@ public class VirusGame extends GameThread {
             }
         }
 
-        if(level.getRemainingEnemies() == 0){
+        if (game.getRemainingEnemies() == 0 && getGameMode() == 1) {
             setState(GameThread.STATE_WIN);
-            level = levels.get(level.getLevelNumber()+1);
+            game = levels.get(game.getLevelNumber() + 1);
 
-            System.out.println(level.getLevelNumber());
+            System.out.println(game.getLevelNumber());
         }
     }
 
@@ -100,7 +107,7 @@ public class VirusGame extends GameThread {
             //draw box at closest enemy canvas.drawRect(cl.getBounds(), new Paint());
         }
 
-        for (Enemy e : level.getEnemies()) {
+        for (Enemy e : game.getEnemies()) {
             e.draw(canvas);
         }
     }
