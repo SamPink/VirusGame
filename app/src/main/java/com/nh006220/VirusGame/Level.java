@@ -19,6 +19,13 @@ public class Level extends GameState{
     }
 
     @Override
+    public boolean onCollision(Enemy e) {
+        e.setVisible(false);
+        //always return false in this game mode as enemies don't do damage
+        return false;
+    }
+
+    @Override
     public void update(float secondsElapsed) {
 
     }

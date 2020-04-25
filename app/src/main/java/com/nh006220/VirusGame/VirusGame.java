@@ -24,7 +24,7 @@ public class VirusGame extends GameThread {
 
         if (getGameMode() == 2) {
             //game mode 2 is a free game
-            game = new FreeGame(gameView, new Map(500,500));
+            game = new FreeGame(gameView, new Map(1500,1500));
         } else {
             levels = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
@@ -49,12 +49,14 @@ public class VirusGame extends GameThread {
         for (Enemy e : game.getEnemies()) {
             //TODO fix bounding box
             if (isColliding(e) && e.isVisible()) {
-                //colliding with enemy on screen
-                e.setVisible(false);
-                updateScore(1);
-                player.increaseScale(e.getSize() * 0.05);
-
-                System.out.println(game.getRemainingEnemies() + "left of " + game.getEnemiesCount());
+                if(!game.onCollision(e)){
+                    //colliding with enemy on screen
+                    updateScore(1);
+                    player.increaseScale(e.getSize() * 0.05);
+                    System.out.println(game.getRemainingEnemies() + "left of " + game.getEnemiesCount());
+                }else{
+                    setState(GameThread.STATE_LOSE);
+                }
             } else if (e.isVisible()) {
                 /* calculate distance from player */
                 double hypot = Math.hypot(Math.abs(e.getY() - player.getY()),

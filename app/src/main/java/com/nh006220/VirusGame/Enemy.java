@@ -11,8 +11,6 @@ public class Enemy extends GameObject {
     @Override
     public void update(float sec) {
         super.update(sec);
-
-        //Add random movement
     }
 
     public int getValue() {
@@ -21,5 +19,9 @@ public class Enemy extends GameObject {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public boolean doesDamage() {
+        return false;
     }
 }

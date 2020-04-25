@@ -79,4 +79,12 @@ public abstract class GameState {
     public abstract int getLevelNumber();
 
     public abstract void update(float secondsElapsed);
+
+    /**
+     * on collision action, returns false for no damage to player
+     * returns true then does damage to enemy
+     * @param e
+     * @return
+     */
+    public abstract boolean onCollision(Enemy e);
 }
