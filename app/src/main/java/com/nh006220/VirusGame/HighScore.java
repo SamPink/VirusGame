@@ -1,20 +1,10 @@
 package com.nh006220.VirusGame;
 
 public class HighScore {
-    private String name;
     private int score;
 
-    public HighScore(String name, int score) {
-        this.name = name;
+    public HighScore( int score) {
         this.score = score;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getScore() {
@@ -23,13 +13,5 @@ public class HighScore {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    @Override
-    public String toString() {
-        return "HighScore{" +
-                "name='" + name + '\'' +
-                ", score=" + score +
-                '}';
     }
 }

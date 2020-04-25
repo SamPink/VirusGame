@@ -97,9 +97,8 @@ public class VirusGame extends GameThread {
 
     private void endGame() {
         //Save score to high score
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        HighScore h = new HighScore("sam", (int) getScore());
-        mDatabase.child("highScore").child(h.getName()).setValue(h);
+        mDatabase = FirebaseDatabase.getInstance().getReference("highScore");
+        mDatabase.setValue(getScore());
 
         setState(GameThread.STATE_LOSE);
     }

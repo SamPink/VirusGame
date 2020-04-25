@@ -29,38 +29,6 @@ public class StartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ChildEventListener eventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                arrayList = new ArrayList<>();
-                System.out.println("fdghjkhgfdsfghj");
-                String value = dataSnapshot.getValue(String.class);
-                arrayList.add(value);
-                adapter = new ArrayAdapter<>(StartActivity.this, android.R.layout.simple_list_item_1, arrayList);
-                listView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-
         setContentView(R.layout.activity_start);
 
         // Find the ListView
@@ -76,10 +44,11 @@ public class StartActivity extends AppCompatActivity {
        myRef.addChildEventListener(new ChildEventListener() {
            @Override
            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-               for(DataSnapshot d : dataSnapshot.getChildren()){
-                   String value = d.getValue(String.class);
-                   System.out.println(value);
-               }
+               arrayList = new ArrayList<>();
+               String value = dataSnapshot.getValue(String.class);
+               arrayList.add(value);
+               adapter = new ArrayAdapter<>(StartActivity.this, android.R.layout.simple_list_item_1, arrayList);
+               listView.setAdapter(adapter);
            }
 
            @Override
@@ -102,9 +71,6 @@ public class StartActivity extends AppCompatActivity {
 
            }
        });
-
-
-        myRef.addChildEventListener(eventListener);
 
         buttonLevels = findViewById(R.id.button_play_levels);
         buttonLevels.setOnClickListener(v -> {
